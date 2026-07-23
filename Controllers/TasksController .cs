@@ -31,6 +31,18 @@ namespace TesteDevjr.Controllers
             return Ok(task);
         }
 
- 
+        [HttpPost]
+        [ProducesResponseType(typeof(TaskResponseDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<TaskResponseDto>> Create([FromBody] CreateTaskDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var created = await _taskService.CreateAsync(dto);
+
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+        }
+
     }
 }
