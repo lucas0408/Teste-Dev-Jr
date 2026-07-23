@@ -29,7 +29,7 @@ namespace TesteDevjr.Services
                 Title = dto.Title,
                 Description = dto.Description,
                 DueDate = dto.DueDate,
-                Status = MapToModelStatus(dto.Status),
+                Status = MapToModelStatus(dto.Status!.Value),
                 CreatedAt = DateTime.UtcNow
             };
 
