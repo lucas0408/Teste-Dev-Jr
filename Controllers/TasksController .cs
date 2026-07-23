@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TesteDevjr.DTOs;
+using TesteDevjr.Models;
 using TesteDevjr.Services;
 
 namespace TesteDevjr.Controllers
@@ -58,6 +59,16 @@ namespace TesteDevjr.Controllers
                 return NotFound(new { message = $"Tarefa com Id {id} não encontrada." });
 
             return Ok(updated);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<TaskResponseDto>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<TaskResponseDto>>> GetAll(
+            [FromQuery] TaskItemStatus? status,
+            [FromQuery] DateTime? dueDate)
+        {
+            var tasks = await _taskService.GetAllAsync(status, dueDate);
+            return Ok(tasks);
         }
     }
 }

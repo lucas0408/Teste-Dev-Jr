@@ -33,5 +33,11 @@ namespace TesteDevjr.Repositories
             return task;
         }
 
+        public async Task<IEnumerable<TaskItem>> GetAllAsync()
+        {
+            return await _context.Tasks
+                .AsNoTracking()
+                .ToListAsync();
+        }
     }
 }

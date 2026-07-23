@@ -75,5 +75,17 @@ namespace TesteDevjr.Services
 
             return MapToResponseDto(updated);
         }
+        public async Task<IEnumerable<TaskResponseDto>> GetAllAsync(TaskItemStatus? status, DateTime? dueDate)
+        {
+            var tasks = await _repository.GetAllAsync();
+
+            if (status.HasValue)
+                tasks = tasks.Where(t => t.Status == status.Value);
+
+            if (dueDate.HasValue)
+                tasks = tasks.Where(t => t.DueDate.HasValue && t.DueDate.Value.Date == dueDate.Value.Date);
+
+            return tasks.Select(MapToResponseDto);
+        }
     }
 }
