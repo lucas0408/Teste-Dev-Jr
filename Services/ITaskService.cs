@@ -7,5 +7,6 @@ namespace TesteDevjr.Services
     {
         Task<TaskResponseDto> CreateAsync(CreateTaskDto dto);
         Task<TaskResponseDto?> GetByIdAsync(Guid id);
+        Task<TaskResponseDto?> UpdateAsync(Guid id, UpdateTaskDto dto);
     }
 }

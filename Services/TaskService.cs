@@ -34,7 +34,6 @@ namespace TesteDevjr.Services
             };
         }
 
-
         public async Task<TaskResponseDto> CreateAsync(CreateTaskDto dto)
         {
             var task = new TaskItem
@@ -54,5 +53,27 @@ namespace TesteDevjr.Services
             return MapToResponseDto(created);
         }
 
+        public async Task<TaskResponseDto?> UpdateAsync(Guid id, UpdateTaskDto dto)
+        {
+            var existingTask = await _repository.GetByIdAsync(id);
+
+            if (existingTask is null)
+            {
+                _logger.LogWarning("Tentativa de atualizar tarefa inexistente. Id: {TaskId}", id);
+                return null;
+            }
+
+            existingTask.Title = dto.Title;
+            existingTask.Description = dto.Description;
+            existingTask.DueDate = dto.DueDate;
+            existingTask.Status = dto.Status;
+            existingTask.UpdatedAt = DateTime.UtcNow;
+
+            var updated = await _repository.UpdateAsync(existingTask);
+
+            _logger.LogInformation("Tarefa atualizada. Id: {TaskId}", id);
+
+            return MapToResponseDto(updated);
+        }
     }
 }

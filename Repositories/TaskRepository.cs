@@ -26,8 +26,12 @@ namespace TesteDevjr.Repositories
             return task;
         }
 
-
-
+        public async Task<TaskItem> UpdateAsync(TaskItem task)
+        {
+            _context.Tasks.Update(task);
+            await _context.SaveChangesAsync();
+            return task;
+        }
 
     }
 }

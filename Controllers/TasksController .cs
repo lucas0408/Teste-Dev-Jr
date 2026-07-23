@@ -43,5 +43,21 @@ namespace TesteDevjr.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
+        [HttpPut("{id:guid}")]
+        [ProducesResponseType(typeof(TaskResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<TaskResponseDto>> Update(Guid id, [FromBody] UpdateTaskDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var updated = await _taskService.UpdateAsync(id, dto);
+
+            if (updated is null)
+                return NotFound(new { message = $"Tarefa com Id {id} não encontrada." });
+
+            return Ok(updated);
+        }
     }
 }

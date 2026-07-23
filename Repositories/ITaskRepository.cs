@@ -6,5 +6,6 @@ namespace TesteDevjr.Repositories
     {
         Task<TaskItem?> GetByIdAsync(Guid id);
         Task<TaskItem> AddAsync(TaskItem task);
+        Task<TaskItem> UpdateAsync(TaskItem task);
     }
 }
