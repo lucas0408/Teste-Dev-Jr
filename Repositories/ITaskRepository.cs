@@ -7,7 +7,9 @@ namespace TesteDevjr.Repositories
         Task<TaskItem?> GetByIdAsync(Guid id);
         Task<TaskItem> AddAsync(TaskItem task);
         Task<TaskItem> UpdateAsync(TaskItem task);
-        Task<IEnumerable<TaskItem>> GetAllAsync();
+        Task<IEnumerable<TaskItem>> GetAllAsync(TaskItemStatus? status, DateTime? dueDate);
+
         Task<bool> DeleteAsync(Guid id);
+
     }
 }

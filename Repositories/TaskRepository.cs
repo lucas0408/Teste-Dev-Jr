@@ -33,11 +33,17 @@ namespace TesteDevjr.Repositories
             return task;
         }
 
-        public async Task<IEnumerable<TaskItem>> GetAllAsync()
+        public async Task<IEnumerable<TaskItem>> GetAllAsync(TaskItemStatus? status, DateTime? dueDate)
         {
-            return await _context.Tasks
-                .AsNoTracking()
-                .ToListAsync();
+            var query = _context.Tasks.AsNoTracking().AsQueryable();
+
+            if (status.HasValue)
+                query = query.Where(t => t.Status == status.Value);
+
+            if (dueDate.HasValue)
+                query = query.Where(t => t.DueDate.HasValue && t.DueDate.Value.Date == dueDate.Value.Date);
+
+            return await query.ToListAsync();
         }
 
         public async Task<bool> DeleteAsync(Guid id)
