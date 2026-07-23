@@ -70,5 +70,18 @@ namespace TesteDevjr.Controllers
             var tasks = await _taskService.GetAllAsync(status, dueDate);
             return Ok(tasks);
         }
+
+        [HttpDelete("{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var deleted = await _taskService.DeleteAsync(id);
+
+            if (!deleted)
+                return NotFound(new { message = $"Tarefa com Id {id} não encontrada." });
+
+            return NoContent();
+        }
     }
 }

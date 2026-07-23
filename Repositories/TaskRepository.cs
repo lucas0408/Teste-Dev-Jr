@@ -39,5 +39,16 @@ namespace TesteDevjr.Repositories
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var task = await _context.Tasks.FindAsync(id);
+            if (task is null)
+                return false;
+
+            _context.Tasks.Remove(task);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

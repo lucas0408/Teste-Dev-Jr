@@ -87,5 +87,17 @@ namespace TesteDevjr.Services
 
             return tasks.Select(MapToResponseDto);
         }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var deleted = await _repository.DeleteAsync(id);
+
+            if (deleted)
+                _logger.LogInformation("Tarefa excluída. Id: {TaskId}", id);
+            else
+                _logger.LogWarning("Tentativa de excluir tarefa inexistente. Id: {TaskId}", id);
+
+            return deleted;
+        }
     }
 }
