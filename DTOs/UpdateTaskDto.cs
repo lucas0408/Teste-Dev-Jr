@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TesteDevjr.Models;
-
 namespace TesteDevjr.DTOs
 {
     public class UpdateTaskDto
@@ -15,6 +13,6 @@ namespace TesteDevjr.DTOs
         public DateTime? DueDate { get; set; }
 
         [Required(ErrorMessage = "O status é obrigatório.")]
-        public TaskItemStatus Status { get; set; }
+        public TaskStatusDto? Status { get; set; }
     }
 }

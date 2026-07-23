@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TesteDevjr.Models;
 
 namespace TesteDevjr.DTOs
 {
@@ -14,6 +13,6 @@ namespace TesteDevjr.DTOs
 
         public DateTime? DueDate { get; set; }
 
-        public TaskItemStatus Status { get; set; } = TaskItemStatus.Pendente;
+        public TaskStatusDto Status { get; set; } = TaskStatusDto.Pendente;
     }
 }

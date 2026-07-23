@@ -20,19 +20,6 @@ namespace TesteDevjr.Services
             var task = await _repository.GetByIdAsync(id);
             return task is null ? null : MapToResponseDto(task);
         }
-        private static TaskResponseDto MapToResponseDto(TaskItem task)
-        {
-            return new TaskResponseDto
-            {
-                Id = task.Id,
-                Title = task.Title,
-                Description = task.Description,
-                DueDate = task.DueDate,
-                Status = task.Status,
-                CreatedAt = task.CreatedAt,
-                UpdatedAt = task.UpdatedAt
-            };
-        }
 
         public async Task<TaskResponseDto> CreateAsync(CreateTaskDto dto)
         {
@@ -42,12 +29,11 @@ namespace TesteDevjr.Services
                 Title = dto.Title,
                 Description = dto.Description,
                 DueDate = dto.DueDate,
-                Status = dto.Status,
+                Status = MapToModelStatus(dto.Status),
                 CreatedAt = DateTime.UtcNow
             };
 
             var created = await _repository.AddAsync(task);
-
             _logger.LogInformation("Tarefa criada com Id {TaskId}", created.Id);
 
             return MapToResponseDto(created);
@@ -66,18 +52,21 @@ namespace TesteDevjr.Services
             existingTask.Title = dto.Title;
             existingTask.Description = dto.Description;
             existingTask.DueDate = dto.DueDate;
-            existingTask.Status = dto.Status;
+            existingTask.Status = MapToModelStatus(dto.Status!.Value);
             existingTask.UpdatedAt = DateTime.UtcNow;
 
             var updated = await _repository.UpdateAsync(existingTask);
-
             _logger.LogInformation("Tarefa atualizada. Id: {TaskId}", id);
 
             return MapToResponseDto(updated);
         }
-        public async Task<IEnumerable<TaskResponseDto>> GetAllAsync(TaskItemStatus? status, DateTime? dueDate)
+        public async Task<IEnumerable<TaskResponseDto>> GetAllAsync(TaskStatusDto? status, DateTime? dueDate)
         {
-            var tasks = await _repository.GetAllAsync(status, dueDate);
+            TaskItemStatus? modelStatus = status.HasValue
+                ? MapToModelStatus(status.Value)
+                : null;
+
+            var tasks = await _repository.GetAllAsync(modelStatus, dueDate);
             return tasks.Select(MapToResponseDto);
         }
 
@@ -92,5 +81,25 @@ namespace TesteDevjr.Services
 
             return deleted;
         }
+
+        private static TaskResponseDto MapToResponseDto(TaskItem task)
+        {
+            return new TaskResponseDto
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                DueDate = task.DueDate,
+                Status = MapToDtoStatus(task.Status),
+                CreatedAt = task.CreatedAt,
+                UpdatedAt = task.UpdatedAt
+            };
+        }
+
+        private static TaskItemStatus MapToModelStatus(TaskStatusDto status) =>
+            (TaskItemStatus)(int)status;
+
+        private static TaskStatusDto MapToDtoStatus(TaskItemStatus status) =>
+            (TaskStatusDto)(int)status;
     }
 }

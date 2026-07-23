@@ -64,7 +64,7 @@ namespace TesteDevjr.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<TaskResponseDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<TaskResponseDto>>> GetAll(
-            [FromQuery] TaskItemStatus? status,
+            [FromQuery] TaskStatusDto? status,
             [FromQuery] DateTime? dueDate)
         {
             var tasks = await _taskService.GetAllAsync(status, dueDate);
