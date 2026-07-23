@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskManagement.Domain.Entities;
 
-namespace TaskManagement.Infrastructure.Data
+using TesteDevjr.Models;
+namespace TesteDevjr.Infrastructure.Data
 {
     public class TaskManagementDbContext : DbContext
     {

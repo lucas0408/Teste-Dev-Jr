@@ -1,4 +1,4 @@
-﻿using TaskManagement.Domain.Enums;
+﻿using TesteDevjr.Models;
 
 namespace TesteDevjr.DTOs
 {

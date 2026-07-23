@@ -1,4 +1,4 @@
-﻿namespace TaskManagement.Domain.Enums
+﻿namespace TesteDevjr.Models
 {
     public enum TaskItemStatus
     {

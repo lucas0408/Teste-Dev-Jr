@@ -1,6 +1,4 @@
-﻿using TaskManagement.Domain.Enums;
-
-namespace TaskManagement.Domain.Entities
+﻿namespace TesteDevjr.Models
 {
     public class TaskItem
     {
