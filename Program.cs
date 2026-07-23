@@ -1,5 +1,7 @@
-using TaskManagement.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using TesteDevjr.Infrastructure.Data;
+using TesteDevjr.Repositories;
+using TesteDevjr.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<TaskManagementDbContext>(options =>
