@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TesteDevjr.Infrastructure.Data;
+using TesteDevjr.Middlewares;
 using TesteDevjr.Repositories;
 using TesteDevjr.Services;
 
@@ -17,7 +18,7 @@ builder.Services.AddDbContext<TaskManagementDbContext>(options =>
     options.UseInMemoryDatabase("TaskManagementDb"));
 
 var app = builder.Build();
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
